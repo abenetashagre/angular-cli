@@ -44,11 +44,18 @@ describe('Acceptance: ng init', function () {
     return tmp.teardown('./tmp');
   });
 
-  function confirmBlueprinted(isMobile) {
+  function confirmBlueprinted(additionalFolders) {
     var blueprintPath = path.join(root, 'addon', 'ng2', 'blueprints', 'ng2', 'files');
-    var mobileBlueprintPath = path.join(root, 'addon', 'ng2', 'blueprints', 'mobile', 'files');
-    var expected = unique(walkSync(blueprintPath).concat(isMobile ? walkSync(mobileBlueprintPath) : []).sort());
+    var expected = walkSync(blueprintPath);
     var actual = walkSync('.').sort();
+
+    additionalFolders = additionalFolders || [];
+    
+    additionalFolders.forEach((folder) => {
+      expected = expected.concat(walkSync(path.join(root, 'addon', 'ng2', 'blueprints', folder, 'files')));
+    });
+
+    expected = unique(expected.sort());
 
     forEach(Blueprint.renamedFiles, function (destFile, srcFile) {
       expected[expected.indexOf(srcFile)] = destFile;
@@ -60,7 +67,7 @@ describe('Acceptance: ng init', function () {
       expected[index] = expected[index].replace(/__path__/g, 'src');
     });
     
-    if (isMobile) {
+    if (additionalFolders.indexOf('mobile') > -1) {
       expected = expected.filter(p => p.indexOf('tmp.component.html') < 0);
       expected = expected.filter(p => p.indexOf('tmp.component.css') < 0);
     }
@@ -117,7 +124,26 @@ describe('Acceptance: ng init', function () {
       '--skip-npm',
       '--skip-bower',
       '--mobile'
-    ]).then(() => confirmBlueprinted(true));
+    ]).then(() => confirmBlueprinted(['mobile']));
+  });
+
+  it('ng init --universal', () => {
+    return ng([
+      'init',
+      '--skip-npm',
+      '--skip-bower',
+      '--universal'
+    ]).then(() => confirmBlueprinted(['universal']));
+  });
+
+  it('ng init --universal --mobile', () => {
+    return ng([
+      'init',
+      '--skip-npm',
+      '--skip-bower',
+      '--universal',
+      '--mobile'
+    ]).then(() => confirmBlueprinted(['universal', 'mobile']));
   });
 
   it('ng init can run in created folder', function () {
