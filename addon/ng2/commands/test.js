@@ -7,6 +7,7 @@ var BuildTask = require('ember-cli/lib/tasks/build');
 var BuildWatchTask = require('ember-cli/lib/tasks/build-watch');
 const config = require('../models/config');
 var TestTask = require('../tasks/test');
+var CoverageTask = require('../tasks/coverage');
 
 
 module.exports = TestCommand.extend({
@@ -39,6 +40,11 @@ module.exports = TestCommand.extend({
       analytics: this.analytics,
       project: this.project
     });
+    var coverageTask = new CoverageTask({
+      ui: this.ui,
+      analytics: this.analytics,
+      project: this.project
+    });
 
     var buildOptions = {
       environment: 'development',
@@ -66,7 +72,9 @@ module.exports = TestCommand.extend({
             /* handle build error to allow watch mode to start */
           })
         .then(() => {
-          return Promise.all([buildWatchTask.run(buildOptions), testTask.run(commandOptions)]);
+          return Promise.all([buildWatchTask.run(buildOptions), testTask.run(commandOptions).then(()=> {
+            return coverageTask.run();
+          })]);
         });
     } else {
       // if not watching ensure karma is doing a single run
@@ -76,7 +84,9 @@ module.exports = TestCommand.extend({
           return buildTask.run(buildOptions);
         })
         .then(() => {
-          return testTask.run(commandOptions);
+          return testTask.run(commandOptions).then(()=> {
+            return coverageTask.run();
+          });
         });
     }
 
