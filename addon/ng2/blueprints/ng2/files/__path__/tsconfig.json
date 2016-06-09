@@ -17,7 +17,7 @@
   },
 
   "files": [
-    "main.ts",<% if (isMobile) { %>
+    "start-browser.ts",<% if (isMobile) { %>
     "main-app-shell.ts",<% } %>
     "typings.d.ts"
   ]

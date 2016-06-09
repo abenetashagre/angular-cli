@@ -10,13 +10,21 @@ module.exports = {
     { name: 'source-dir', type: String, default: 'src', aliases: ['sd'] },
     { name: 'prefix', type: String, default: 'app', aliases: ['p'] },
     { name: 'style', type: String, default: 'css' },
-    { name: 'mobile', type: Boolean, default: false }
+    { name: 'mobile', type: Boolean, default: false },
+    { name: 'universal', type: Boolean, default: false }
   ],
 
   afterInstall: function (options) {
+    var bluePrints = [];
+
     if (options.mobile) {
-      return Blueprint.load(path.join(__dirname, '../mobile')).install(options);
+      bluePrints.push(Blueprint.load(path.join(__dirname, '../mobile')).install(options));
     }
+    if (options.universal) {
+      bluePrints.push(Blueprint.load(path.join(__dirname, '../universal')).install(options));
+    }
+
+    return Promise.all(bluePrints);
   },
 
   locals: function(options) {
@@ -38,7 +46,8 @@ module.exports = {
       prefix: options.prefix,
       styleExt: this.styleExt,
       refToTypings: refToTypings,
-      isMobile: options.mobile
+      isMobile: options.mobile,
+      universal: options.universal
     };
   },
 

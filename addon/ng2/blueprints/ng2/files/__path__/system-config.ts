@@ -46,7 +46,7 @@ System.config({
   map: {
     '@angular': 'vendor/@angular',
     'rxjs': 'vendor/rxjs',
-    'main': 'main.js'
+    'start-browser': 'start-browser.js'
   },
   packages: cliSystemConfigPackages
 });

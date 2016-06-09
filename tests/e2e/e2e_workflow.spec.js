@@ -66,7 +66,7 @@ describe('Basic end-to-end Workflow', function () {
     // stuck to the first build done
     sh.exec(`${ngBin} build -prod`);
     expect(existsSync(path.join(process.cwd(), 'dist'))).to.be.equal(true);
-    var mainBundlePath = path.join(process.cwd(), 'dist', 'main.js');
+    var mainBundlePath = path.join(process.cwd(), 'dist', 'start-browser.js');
     var mainBundleContent = fs.readFileSync(mainBundlePath, { encoding: 'utf8' });
     // production: true minimized turns into production:!0
     expect(mainBundleContent).to.include('production:!0');

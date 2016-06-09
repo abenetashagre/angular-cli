@@ -5,9 +5,10 @@
   },
   "apps": [
     {
-      "main": "<%= sourceDir %>/main.ts",
+      "main": "<%= sourceDir %>/start-browser.ts",
       "tsconfig": "<%= sourceDir %>/tsconfig.json",
-      "mobile": <%= isMobile %>
+      "mobile": <%= isMobile %>,
+      "universal" : <%= universal %>
     }
   ],
   "addons": [],
