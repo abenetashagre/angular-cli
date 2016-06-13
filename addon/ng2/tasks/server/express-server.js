@@ -115,7 +115,7 @@ module.exports = Task.extend({
       var server = this.project.require(this.serverRoot);
 
       if (typeof server !== 'function') {
-        throw new TypeError('ember-cli expected ./server/index.js to be the entry for your mock or proxy server');
+        throw new TypeError('angular-cli expected ./server/index.js to be the entry for your mock or proxy server');
       }
 
       if (server.length === 3) {
