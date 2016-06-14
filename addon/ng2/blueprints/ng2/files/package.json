@@ -46,7 +46,7 @@
     "karma-jasmine": "0.3.8",
     "karma-sourcemap-loader": "^0.3.7",
     "protractor": "3.3.0",
-    "remap-istanbul": "^0.6.4",
+    "remap-istanbul": "devCrossNet/remap-istanbul",
     "ts-node": "0.5.5",
     "tslint": "3.11.0",
     "typescript": "1.8.10",

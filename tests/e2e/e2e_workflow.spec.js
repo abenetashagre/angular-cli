@@ -169,7 +169,7 @@ describe('Basic end-to-end Workflow', function () {
       expect(existsSync(path.join(coverageDir, 'html'))).to.be.equal(true);
       expect(existsSync(path.join(coverageDir, 'html', 'index.html'))).to.be.equal(true);
       expect(existsSync(path.join(coverageDir, 'html', 'app'))).to.be.equal(true);
-      expect(existsSync(path.join(coverageDir, 'html', 'app', 'test-component'))).to.be.equal(true);
+      expect(existsSync(path.join(coverageDir, 'html', 'app', 'app.component.ts.html'))).to.be.equal(true);
     });
   });
 
