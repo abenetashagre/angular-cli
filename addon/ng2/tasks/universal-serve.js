@@ -53,12 +53,9 @@ module.exports = Task.extend({
       expressServer: expressServer
     });
 
-    watcher.on('change', function(){
-      expressServer.start(options);
-    });
-
     return Promise.all([
-      liveReloadServer.start(options)
+      liveReloadServer.start(options),
+      expressServer.start(options)
     ]).then(function() {
       return new Promise(function() {
         // hang until the user exits.

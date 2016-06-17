@@ -141,15 +141,19 @@ module.exports = Task.extend({
       this.serverWatcher.on('delete', this.serverWatcherDidChange.bind(this));
     }
 
-    return this.startHttpServer()
-      .then(function () {
-        var baseURL = cleanBaseURL(options.baseURL);
+    this.watcher.on('change', function () {
+      this.restartHttpServer()
+        .then(function () {
+          var baseURL = cleanBaseURL(options.baseURL);
 
-        options.ui.writeLine('Serving on http' + (options.ssl ? 's' : '') +
-          '://' + this.displayHost(options.host) +
-          ':' +
-          options.port + baseURL);
-      }.bind(this));
+          options.ui.writeLine(chalk.green('Serving on http' + (options.ssl ? 's' : '') +
+            '://' + this.displayHost(options.host) +
+            ':' +
+            options.port + baseURL));
+        }.bind(this));
+    }.bind(this));
+
+    this.watcher.on('error', this.stopHttpServer.bind(this));
   },
 
   serverWatcherDidChange: function () {
@@ -161,14 +165,11 @@ module.exports = Task.extend({
       this.serverRestartPromise =
         this.stopHttpServer()
           .then(function () {
-            this.invalidateCache(this.serverRoot);
+            this.invalidateCache();
             return this.startHttpServer();
           }.bind(this))
           .then(function () {
             this.emit('restart');
-            this.ui.writeLine('');
-            this.ui.writeLine(chalk.green('Server restarted.'));
-            this.ui.writeLine('');
           }.bind(this))
           .catch(function (err) {
             this.ui.writeError(err);
@@ -238,17 +239,12 @@ module.exports = Task.extend({
       }.bind(this));
   },
 
-  invalidateCache: function (serverRoot) {
-    var absoluteServerRoot = path.resolve(serverRoot);
-    if (absoluteServerRoot[absoluteServerRoot.length - 1] !== path.sep) {
-      absoluteServerRoot += path.sep;
-    }
+  invalidateCache: function () {
+    var allKeys = Object.keys(require.cache),
+        max = allKeys.length;
 
-    var allKeys = Object.keys(require.cache);
-    for (var i = 0; i < allKeys.length; i++) {
-      if (allKeys[i].indexOf(absoluteServerRoot) === 0) {
-        delete require.cache[allKeys[i]];
-      }
+    for (var i = 0; i < max; i++) {
+      delete require.cache[allKeys[i]];
     }
   }
 });
