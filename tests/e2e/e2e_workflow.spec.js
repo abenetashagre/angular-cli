@@ -160,10 +160,7 @@ describe('Basic end-to-end Workflow', function () {
       const exitCode = typeof result === 'object' ? result.exitCode : result;
       
       expect(exitCode).to.be.equal(0);
-
-        /**
-         * coverage tests
-         */
+      
       expect(existsSync(coverageDir)).to.be.equal(true);
       expect(existsSync(path.join(coverageDir, 'coverage-final.json'))).to.be.equal(true);
       expect(existsSync(path.join(coverageDir, 'html'))).to.be.equal(true);
@@ -250,8 +247,12 @@ describe('Basic end-to-end Workflow', function () {
     this.timeout(420000);
 
     return ng(testArgs).then(function (result) {
+      var coverageDir = path.join(process.cwd(), 'coverage');
       const exitCode = typeof result === 'object' ? result.exitCode : result;
       expect(exitCode).to.be.equal(0);
+      
+      expect(existsSync(path.join(coverageDir, 'html', 'app', 'test-component'))).to.be.equal(true);
+      expect(existsSync(path.join(coverageDir, 'html', 'app', 'test-component', 'test-component.component.ts.html'))).to.be.equal(true);
     });
   });
 
@@ -268,8 +269,11 @@ describe('Basic end-to-end Workflow', function () {
     this.timeout(420000);
 
     return ng(testArgs).then(function (result) {
+      var coverageDir = path.join(process.cwd(), 'coverage');
       const exitCode = typeof result === 'object' ? result.exitCode : result;
       expect(exitCode).to.be.equal(0);
+      
+      expect(existsSync(path.join(coverageDir, 'html', 'app', 'test-service.service.ts.html'))).to.be.equal(true);
     });
   });
 
@@ -286,8 +290,11 @@ describe('Basic end-to-end Workflow', function () {
     this.timeout(420000);
 
     return ng(testArgs).then(function (result) {
+      var coverageDir = path.join(process.cwd(), 'coverage');
       const exitCode = typeof result === 'object' ? result.exitCode : result;
       expect(exitCode).to.be.equal(0);
+
+      expect(existsSync(path.join(coverageDir, 'html', 'app', 'test-pipe.pipe.ts.html'))).to.be.equal(true);
     });
   });
 
