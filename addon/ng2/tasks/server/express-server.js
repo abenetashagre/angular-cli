@@ -240,8 +240,8 @@ module.exports = Task.extend({
   },
 
   invalidateCache: function () {
-    var allKeys = Object.keys(require.cache),
-        max = allKeys.length;
+    var allKeys = Object.keys(require.cache);
+    var max = allKeys.length;
 
     for (var i = 0; i < max; i++) {
       delete require.cache[allKeys[i]];
