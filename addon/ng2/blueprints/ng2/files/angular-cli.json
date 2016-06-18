@@ -8,7 +8,7 @@
       "main": "<%= sourceDir %>/start-browser.ts",
       "tsconfig": "<%= sourceDir %>/tsconfig.json",
       "mobile": <%= isMobile %>,
-      "universal" : <%= universal %>
+      "universal": <%= universal %>
     }
   ],
   "addons": [],
