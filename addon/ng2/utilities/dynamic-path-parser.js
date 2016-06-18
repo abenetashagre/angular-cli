@@ -52,7 +52,7 @@ module.exports = function dynamicPathParser(project, entityName) {
   }
 
   parsedPath.dir = parsedPath.dir === path.sep ? '' : parsedPath.dir;
-  parsedPath.appRoot = appRoot
+  parsedPath.appRoot = appRoot;
 
   return parsedPath;
 };
