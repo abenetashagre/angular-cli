@@ -45,9 +45,9 @@ function ngApp(req, res, next) {
     preboot: false,
     providers: [
       {provide: REQUEST_URL, useValue: req.originalUrl},
-      NODE_PLATFORM_PIPES,
-      NODE_ROUTER_PROVIDERS,
-      NODE_HTTP_PROVIDERS
+      ...NODE_PLATFORM_PIPES,
+      ...NODE_ROUTER_PROVIDERS,
+      ...NODE_HTTP_PROVIDERS
     ]
   };
 
