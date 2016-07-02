@@ -24,7 +24,7 @@
     "@angular/router-deprecated": "2.0.0-rc.1",
     "angular2-universal":"^0.102.1",
     "angular2-universal-polyfills": "^0.4.1",
-    "preboot": "^2.0.10",
+    "preboot": "^2.1.2",
     "express": "^4.13.4",
     "serve-static": "^1.11.1",<% } %>
     "core-js": "^2.4.0",
