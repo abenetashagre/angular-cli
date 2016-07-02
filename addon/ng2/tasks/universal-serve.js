@@ -49,7 +49,7 @@ module.exports = Task.extend({
       ui: this.ui,
       analytics: this.analytics,
       project: this.project,
-      watcher: watcher,
+      watcher: expressServer,
       expressServer: expressServer
     });
 

@@ -19,7 +19,7 @@ module.exports = Task.extend({
     this.express = this.express || require('express');
     this.http = this.http || require('http');
     this.https = this.https || require('https');
-    
+
     var serverRestartDelayTime = this.serverRestartDelayTime || 1000;
     this.scheduleServerRestart = debounce(function () {
       this.restartHttpServer();
@@ -150,6 +150,9 @@ module.exports = Task.extend({
             '://' + this.displayHost(options.host) +
             ':' +
             options.port + baseURL));
+        }.bind(this))
+        .then(function () {
+          this.emit('restart');
         }.bind(this));
     }.bind(this));
 
@@ -167,9 +170,6 @@ module.exports = Task.extend({
           .then(function () {
             this.invalidateCache();
             return this.startHttpServer();
-          }.bind(this))
-          .then(function () {
-            this.emit('restart');
           }.bind(this))
           .catch(function (err) {
             this.ui.writeError(err);
